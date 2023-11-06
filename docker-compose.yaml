@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      # ./postgres-data 현재의 폴더 내의 위치
+      # /var/lib/postgresql/data 이미지의 위치
+      # 두개를 완벽히 싱크를 맞춘다.
+    ports:
+      - '5432:5432'
+      # host의 5432와 이미지의 5432를 연동. 5432로 요청을 넣으면, postgres의 5432로 요청이 간다.
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
