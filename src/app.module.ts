@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModel } from './posts/entities/posts.entity';
 import { UsersModule } from './users/users.module';
 import { UsersModel } from './users/entities/users.entity';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UsersModel } from './users/entities/users.entity';
       synchronize: true, // nestjs 와 db의 싱크를 자동으로 만들 것이냐? dev에서는 true, production 에서는 false
     }),
     UsersModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
