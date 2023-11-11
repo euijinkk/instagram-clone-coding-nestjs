@@ -10,12 +10,15 @@ export class PostsService {
     private readonly postsRepository: Repository<PostsModel>,
   ) {}
   async getAllPosts() {
-    return await this.postsRepository.find();
+    return await this.postsRepository.find({
+      relations: ['author'],
+    });
   }
 
   async getPostById(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
+      relations: ['author'],
     });
 
     if (!post) {
@@ -25,10 +28,10 @@ export class PostsService {
     return post;
   }
 
-  async createPost(author: string, title: string, content: string) {
+  async createPost(authorId: number, title: string, content: string) {
     // create는 동기적 작업. DB에 직접 접근하지 않는다.
     const post = this.postsRepository.create({
-      author,
+      author: { id: authorId },
       title,
       content,
       likeCount: 0,
@@ -40,12 +43,7 @@ export class PostsService {
     return newPost;
   }
 
-  async updatePost(
-    postId: number,
-    author: string,
-    title: string,
-    content: string,
-  ) {
+  async updatePost(postId: number, title: string, content: string) {
     const post = await this.postsRepository.findOne({
       where: { id: postId },
     });
@@ -54,9 +52,6 @@ export class PostsService {
       throw new NotFoundException();
     }
 
-    if (author) {
-      post.author = author;
-    }
     if (title) {
       post.title = title;
     }

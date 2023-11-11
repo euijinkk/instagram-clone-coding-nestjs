@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModel } from './posts/entities/posts.entity';
+import { UsersModule } from './users/users.module';
+import { UsersModel } from './users/entities/users.entity';
 
 @Module({
   imports: [
@@ -15,9 +17,10 @@ import { PostsModel } from './posts/entities/posts.entity';
       username: 'postgres',
       password: 'postgres',
       database: 'postgres',
-      entities: [PostsModel], // 생성할 DB 모델들을 넣을 것이다.
+      entities: [PostsModel, UsersModel], // 생성할 DB 모델들을 넣을 것이다.
       synchronize: true, // nestjs 와 db의 싱크를 자동으로 만들 것이냐? dev에서는 true, production 에서는 false
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
